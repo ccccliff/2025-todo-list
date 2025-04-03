@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import createTodo from "../api/todos";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 const TodoInput = () => {
   const [todoState, setTodoState] = useState("");
-
+  const queryClient = useQueryClient();
+  const todoMutation = useMutation({
+    mutationFn: createTodo,
+    //디버깅용..? 더 공부 필요
+    mutationKey: ["create", "todo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+    onError: () => {
+      alert("등록에 실패했습니다.");
+    },
+  });
   const handleInput = () => {
-    createTodo(todoState);
+    todoMutation.mutate(todoState);
     setTodoState("");
   };
+
   return (
     <div>
       <input
