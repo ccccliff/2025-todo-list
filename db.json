@@ -1,0 +1,10 @@
+{
+  "todos": [
+    {
+      "id": "todo1",
+      "title": "todo1",
+      "isCompleted": false,
+      "dueDate": "2025-04-03"
+    }
+  ]
+}
