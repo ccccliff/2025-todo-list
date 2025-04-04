@@ -9,7 +9,7 @@ const TodoInput = () => {
     mutationFn: createTodo,
     //디버깅용..? 더 공부 필요
     mutationKey: ["create", "todo"],
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: () => {
@@ -17,8 +17,13 @@ const TodoInput = () => {
     },
   });
   const handleInput = () => {
-    todoMutation.mutate(todoState);
-    setTodoState("");
+    if (todoState.trim() !== "") {
+      todoMutation.mutate(todoState);
+      setTodoState("");
+    } else {
+      alert("글자를 입력하세요");
+      setTodoState("");
+    }
   };
 
   return (

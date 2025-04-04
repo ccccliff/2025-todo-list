@@ -1,3 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tailwindcss/base"; /* ✅ reset/preflight 포함 */
+@import "tailwindcss/components"; /* 선택 사항 */
+@import "tailwindcss/utilities"; /* 유틸리티 클래스 */
