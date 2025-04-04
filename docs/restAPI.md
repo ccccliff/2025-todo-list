@@ -30,7 +30,6 @@
 - {
   "id" : "todo1",
   "title" : "todo1",
-  "description" : "work",
   "isCompleted" : false,
   "dueDate" : "2025-04-03"
   }
