@@ -4,7 +4,7 @@ import TodoList from "./components/TodoList";
 
 const App = () => {
   return (
-    <div>
+    <div className="flex-col justify-center items-center">
       <TodoInput />
       <TodoList />
     </div>

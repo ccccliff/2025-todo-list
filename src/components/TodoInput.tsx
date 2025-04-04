@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import { createTodo } from "../api/todos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { formattedDate } from "../hooks/newDate";
+import { v4 as uuidv4 } from "uuid";
 import { todoData } from "../types/todosType";
-
 const TodoInput = () => {
   const [todoState, setTodoState] = useState("");
   const queryClient = useQueryClient();
   const todoMutation = useMutation({
     mutationFn: createTodo,
     //디버깅용..? 더 공부 필요
-    mutationKey: ["create", "todo"],
+    mutationKey: ["create", "todos"],
     //옵티미스틱 업데이트
-    onMutate: async (newTodo) => {
+    onMutate: async (newTitle) => {
+      const optimisticTodo: todoData = {
+        id: uuidv4(),
+        title: newTitle,
+        isCompleted: false,
+        dueDate: formattedDate,
+      };
       await queryClient.cancelQueries({ queryKey: ["todos"] });
 
       const previousTodos = queryClient.getQueryData(["todos"]);
 
-      queryClient.setQueryData(["todos"], (old) => [...old, newTodo]);
+      queryClient.setQueryData<todoData[]>(["todos"], (old) => [
+        ...(old ?? []),
+        optimisticTodo,
+      ]);
 
       return { previousTodos };
     },
